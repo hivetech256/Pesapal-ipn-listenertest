@@ -4,7 +4,7 @@ include 'RegisterIPN.php';
 $merchantreference = mt_rand(1, 1000000000); // Reduced to 1 billion which should be sufficient
 $phone = "0706813674";
 $amount = $_POST['amount'];
-$callbackurl = "https://localhost:8080/response-page.php";
+$callbackurl = "https://pesapal-ipn-listenertest.onrender.com/response-page.php";
 $branch = "HiveTech";
 $first_name = "Njuki";
 $middle_name = "Joseph";
