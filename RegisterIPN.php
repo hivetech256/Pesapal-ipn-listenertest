@@ -14,7 +14,7 @@ $headers = array(
     "Authorization: Bearer $token"
 );
 $data = array(
-    "url" => "https://2b65-41-139-202-31.ngrok-free.app/pesapalphp/pin.php", 
+    "url" => "https://pesapal-ipn-listenertest.onrender.com/pesapalphp/pin.php", 
     "ipn_notification_type" => "POST" 
 );
 $ch = curl_init($ipnRegistrationUrl);
