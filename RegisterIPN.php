@@ -2,9 +2,9 @@
 include 'acesstoken.php';
 if(APP_ENVIROMENT == 'sandbox'){
     $ipnRegistrationUrl = "https://cybqa.pesapal.com/pesapalv3/api/URLSetup/RegisterIPN";
-}/*elseif(APP_ENVIROMENT == 'live'){
+}elseif(APP_ENVIROMENT == 'live'){
     $ipnRegistrationUrl = "https://pay.pesapal.com/v3/api/URLSetup/RegisterIPN";
-}*/else{
+}else{
     echo "Invalid APP_ENVIROMENT";
     exit;
 }
