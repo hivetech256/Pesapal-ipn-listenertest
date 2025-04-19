@@ -7,9 +7,9 @@ $OrderTrackingId = $_GET['OrderTrackingId'];
 $OrderMerchantReference = $_GET['OrderMerchantReference'];
 if(APP_ENVIROMENT == 'sandbox'){
   $getTransactionStatusUrl = "https://cybqa.pesapal.com/pesapalv3/api/Transactions/GetTransactionStatus?orderTrackingId=$OrderTrackingId";
-}/*elseif(APP_ENVIROMENT == 'live'){
+}elseif(APP_ENVIROMENT == 'live'){
   $getTransactionStatusUrl = "https://pay.pesapal.com/v3/api/Transactions/GetTransactionStatus?orderTrackingId=$OrderTrackingId";
-}*/else{
+}else{
   echo "Invalid APP_ENVIROMENT";
   exit;
 }
