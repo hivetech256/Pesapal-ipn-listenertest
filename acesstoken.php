@@ -2,12 +2,12 @@
 define('APP_ENVIROMENT', 'live'); // sandbox or live
 if(APP_ENVIROMENT == 'sandbox'){
     $apiUrl = "https://cybqa.pesapal.com/pesapalv3/api/Auth/RequestToken"; // Sandbox URL
-    $consumerKey = "Yh5Z6ZQQEsQXMkJEpyaMsrSbbjIQ8gTR";
-    $consumerSecret = "Iz8S9D1GQApE3dfcOP0gqVN3VXU=";
+    $consumerKey = "TDpigBOOhs+zAl8cwH2Fl82jJGyD8xev";
+    $consumerSecret = "1KpqkfsMaihIcOlhnBo/gBZ5smw=";
 }elseif(APP_ENVIROMENT == 'live'){
     $apiUrl = "https://pay.pesapal.com/v3/api/Auth/RequestToken"; // Live URL
-    $consumerKey = "Yh5Z6ZQQEsQXMkJEpyaMsrSbbjIQ8gTR";
-    $consumerSecret = "Iz8S9D1GQApE3dfcOP0gqVN3VXU=";
+    $consumerKey = "TDpigBOOhs+zAl8cwH2Fl82jJGyD8xev";
+    $consumerSecret = "1KpqkfsMaihIcOlhnBo/gBZ5smw=";
 }else{
     echo "Invalid APP_ENVIROMENT";
     exit;
