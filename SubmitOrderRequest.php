@@ -20,6 +20,13 @@ if(APP_ENVIROMENT == 'sandbox'){
   exit;
 }
 
+// Save PENDING transaction to DB
+$status = 'PENDING';
+$stmt = $conn->prepare("INSERT INTO transactions (merchant_reference, tracking_id, status, amount, payment_method, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("sssssss", $merchant_reference, $tracking_id, $status, $amount, $payment_method, $created_at, $updated_at);
+
+$stmt->execute();
+
 $headers = array(
     "Accept: application/json",
     "Content-Type: application/json",
