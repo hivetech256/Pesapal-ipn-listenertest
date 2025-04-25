@@ -1,5 +1,6 @@
 <?php
 include 'RegisterIPN.php';
+include 'conn.php';
 // Use a reasonable random number within PHP's integer range
 $merchantreference = mt_rand(1, 1000000000); // Reduced to 1 billion which should be sufficient
 $phone = "0706813674";
