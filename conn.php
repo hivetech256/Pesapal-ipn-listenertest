@@ -10,5 +10,6 @@ $conn = new mysqli($servername, $username, $password, $dbname, $dbport); // Remo
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-echo "Connected successfully";
+//echo "Connected successfully";
+    header("Location: index.php");
 ?>
