@@ -12,6 +12,6 @@
     
     <button type="submit">Pay Now</button>
 </form>
-<p>login<a href="login.php"></a>Or Register<a href="register.php"></a><p>
+<p><a href="login.php">login</a> Or <a href="register.php">Register</a><p>
 </body>
 </html>
