@@ -1,6 +1,15 @@
 <?php
-include 'RegisterIPN.php';
-include 'conn.php';
+session_start();
+  include 'RegisterIPN.php';
+  include 'conn.php';
+
+if(!isset($_SESSION['user_id'])){
+    echo "Please login first.";
+    exit;
+}
+// Now user is logged in, you can proceed
+$user_id = $_SESSION['user_id'];
+
 // Use a reasonable random number within PHP's integer range
 $merchantreference = mt_rand(1, 1000000000); // Reduced to 1 billion which should be sufficient
 $phone = "0706813674";
