@@ -10,11 +10,8 @@
     <label>Amount:</label>
     <input type="text" name="amount" required>
     
-    
-    
-    
     <button type="submit">Pay Now</button>
 </form>
-
+<p>login<a href="login.php"></a>Or Register<a href="register.php"></a><p>
 </body>
 </html>
