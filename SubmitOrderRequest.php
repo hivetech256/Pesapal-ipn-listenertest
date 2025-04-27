@@ -1,19 +1,16 @@
 <?php
-session_start();
-include 'conn.php';
 include 'RegisterIPN.php';
-
-$merchantreference = mt_rand(1, 1000000000);
+// Use a reasonable random number within PHP's integer range
+$merchantreference = mt_rand(1, 1000000000); // Reduced to 1 billion which should be sufficient
 $phone = "0706813674";
 $amount = $_POST['amount'];
-$callbackurl = "http://hiveemovies.kesug.com/response-page.php";
+$callbackurl = "https://localhost:8080/response-page.php";
 $branch = "HiveTech";
 $first_name = "Njuki";
 $middle_name = "Joseph";
 $last_name = "Joseph";
 $email_address = "njukijoseph256@gmail.com";
 
-// Choose correct URL
 if(APP_ENVIROMENT == 'sandbox'){
   $submitOrderUrl = "https://cybqa.pesapal.com/pesapalv3/api/Transactions/SubmitOrderRequest";
 }elseif(APP_ENVIROMENT == 'live'){
@@ -23,14 +20,13 @@ if(APP_ENVIROMENT == 'sandbox'){
   exit;
 }
 
-// Headers
 $headers = array(
     "Accept: application/json",
     "Content-Type: application/json",
     "Authorization: Bearer $token"
 );
 
-// Request body
+// Request payload
 $data = array(
     "id" => "$merchantreference",
     "currency" => "UGX",
@@ -55,7 +51,6 @@ $data = array(
     )
 );
 
-// Send cURL
 $ch = curl_init($submitOrderUrl);
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
@@ -63,21 +58,12 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
 
 if($responseCode == 200){
     $responseData = json_decode($response, true);
     $redirect_url = $responseData['redirect_url'];
-
-    // Save payment details to database
-    $user_id = $_SESSION['user_id'];
-
-    $stmt = $conn->prepare("INSERT INTO transactions (user_id, order_tracking_id, merchant_reference) VALUES (?, ?, ?)");
-    $stmt->bind_param("iss", $user_id, $merchantreference, $merchantreference);
-    $stmt->execute();
-    $stmt->close();
-
-    // Redirect to payment
+    
+    // Redirect to the payment page
     header("Location: $redirect_url");
     exit();
 } else {
@@ -85,3 +71,5 @@ if($responseCode == 200){
     header('Location:index.php');
     exit();
 }
+
+curl_close($ch);
