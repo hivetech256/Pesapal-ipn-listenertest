@@ -7,7 +7,7 @@ include 'RegisterIPN.php'; // For getting $token and $ipn_id
 $merchantreference = mt_rand(1, 1000000000); // Random merchant reference
 $phone = "0706813674";
 $amount = $_POST['amount'];
-$callbackurl = "http://hiveemovies.kesug.com/response-page.php";
+$callbackurl = "https://pesapal-ipn-listenertest.onrender.com/response-page.php";
 $branch = "HiveTech";
 $first_name = "Njuki";
 $middle_name = "Joseph";
