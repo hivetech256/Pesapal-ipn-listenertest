@@ -1,5 +1,5 @@
 <?php
-include 'db.php'; // DB connection
+include 'conn.php'; // Ensure the correct path to db.php is used
 include 'RegisterIPN.php'; // For getting $token
 
 // Check if the OrderTrackingId is passed in the URL
