@@ -1,11 +1,11 @@
-<?php
-if(!isset($_SESSION['user_id'])){
-    echo "Please login first.";
-    exit;
-}
-// Now user is logged in, you can proceed
-$user_id = $_SESSION['user_id'];
-?>
+// <?php
+// if(!isset($_SESSION['user_id'])){
+//     echo "Please login first.";
+//     exit;
+// }
+// // Now user is logged in, you can proceed
+// $user_id = $_SESSION['user_id'];
+// ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
