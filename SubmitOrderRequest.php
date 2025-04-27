@@ -1,6 +1,6 @@
 <?php
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
+ob_start();  // Start output buffering
+
 include 'conn.php'; // For DB connection
 include 'RegisterIPN.php'; // For getting $token and $ipn_id
 
@@ -15,9 +15,9 @@ $last_name = "Joseph";
 $email_address = "njukijoseph256@gmail.com";
 
 // Choose correct URL
-if(APP_ENVIROMENT == 'sandbox'){
+if (APP_ENVIROMENT == 'sandbox') {
     $submitOrderUrl = "https://cybqa.pesapal.com/pesapalv3/api/Transactions/SubmitOrderRequest";
-} elseif(APP_ENVIROMENT == 'live'){
+} elseif (APP_ENVIROMENT == 'live') {
     $submitOrderUrl = "https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest";
 } else {
     echo "Invalid APP_ENVIROMENT";
@@ -71,7 +71,7 @@ if ($responseCode == 200) {
     $redirect_url = $responseData['redirect_url'];
 
     // Save into transactions table (only merchant_reference for now)
-    $stmt = $conn->prepare("INSERT INTO transactions (merchant_reference) VALUES (?)");
+    $stmt = $conn->prepare("INSERT INTO transactions (merchant_reference, created_at) VALUES (?, NOW())");
     $stmt->bind_param("s", $merchantreference);
     $stmt->execute();
     $stmt->close();
@@ -84,4 +84,6 @@ if ($responseCode == 200) {
     header('Location: index.php');
     exit();
 }
+
+ob_end_flush();  // End output buffering
 ?>
