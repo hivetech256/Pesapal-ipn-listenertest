@@ -1,37 +1,42 @@
 <?php
-include 'RegisterIPN.php';
-// Use a reasonable random number within PHP's integer range
-$merchantreference = mt_rand(1, 1000000000); // Reduced to 1 billion which should be sufficient
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+include 'conn.php'; // For DB connection
+include 'RegisterIPN.php'; // For getting $token and $ipn_id
+
+$merchantreference = mt_rand(1, 1000000000); // Random merchant reference
 $phone = "0706813674";
 $amount = $_POST['amount'];
-$callbackurl = "https://pesapal-ipn-listenertest.onrender.com/response-page.php";
+$callbackurl = "http://hiveemovies.kesug.com/response-page.php";
 $branch = "HiveTech";
 $first_name = "Njuki";
 $middle_name = "Joseph";
 $last_name = "Joseph";
 $email_address = "njukijoseph256@gmail.com";
 
+// Choose correct URL
 if(APP_ENVIROMENT == 'sandbox'){
-  $submitOrderUrl = "https://cybqa.pesapal.com/pesapalv3/api/Transactions/SubmitOrderRequest";
-}elseif(APP_ENVIROMENT == 'live'){
-  $submitOrderUrl = "https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest";
-}else{
-  echo "Invalid APP_ENVIROMENT";
-  exit;
+    $submitOrderUrl = "https://cybqa.pesapal.com/pesapalv3/api/Transactions/SubmitOrderRequest";
+} elseif(APP_ENVIROMENT == 'live'){
+    $submitOrderUrl = "https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest";
+} else {
+    echo "Invalid APP_ENVIROMENT";
+    exit;
 }
 
+// Headers
 $headers = array(
     "Accept: application/json",
     "Content-Type: application/json",
     "Authorization: Bearer $token"
 );
 
-// Request payload
+// Request body
 $data = array(
     "id" => "$merchantreference",
     "currency" => "UGX",
     "amount" => $amount,
-    "description" => "Payment description goes here",
+    "description" => "Payment for HiveeMovies subscription",
     "callback_url" => "$callbackurl",
     "notification_id" => "$ipn_id",
     "branch" => "$branch",
@@ -51,6 +56,7 @@ $data = array(
     )
 );
 
+// Send cURL
 $ch = curl_init($submitOrderUrl);
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
@@ -58,18 +64,24 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
 
-if($responseCode == 200){
+if ($responseCode == 200) {
     $responseData = json_decode($response, true);
     $redirect_url = $responseData['redirect_url'];
-    
-    // Redirect to the payment page
+
+    // Save into transactions table (only merchant_reference for now)
+    $stmt = $conn->prepare("INSERT INTO transactions (merchant_reference) VALUES (?)");
+    $stmt->bind_param("s", $merchantreference);
+    $stmt->execute();
+    $stmt->close();
+
+    // Redirect to Pesapal payment page
     header("Location: $redirect_url");
     exit();
 } else {
     echo "Error: $responseCode";
-    header('Location:index.php');
+    header('Location: index.php');
     exit();
 }
-
-curl_close($ch);
+?>
