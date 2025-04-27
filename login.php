@@ -28,3 +28,10 @@ if(isset($_POST['login'])){
 }
 ?>
 
+<h2>Login</h2>
+<form method="post" action="">
+    Email: <input type="email" name="email" required><br><br>
+    Password: <input type="password" name="password" required><br><br>
+    <input type="submit" name="login" value="Register">
+</form>
+
