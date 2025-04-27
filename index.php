@@ -1,4 +1,4 @@
-// <?php
+ <?php
 // if(!isset($_SESSION['user_id'])){
 //     echo "Please login first.";
 //     exit;
